@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 沖繩親子之旅行程助手 v17</title>
+    <title>2026 沖繩親子之旅行程助手 v19</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
@@ -129,7 +129,7 @@
                         <p>2/21 BR112: 06:55-09:15 | 2/27 BR185: 20:10-20:55</p>
                     </div>
                 </div>
-                <!-- Hotel Info (Updated Day 1 Info) -->
+                <!-- Hotel Info -->
                 <div class="border-t pt-3">
                     <div class="flex items-center text-indigo-600 font-bold text-sm mb-2">🏨 住宿安排</div>
                     <div class="space-y-3 text-[11px]">
@@ -187,7 +187,7 @@
                     </div>
                     <div class="itinerary-item pl-4 border-l-indigo-500">
                         <p class="font-bold text-sm text-indigo-700">飯店 Check-in：Lieta Nakayama</p>
-                        <p class="desc-text">前往名護市區辦理入住 (預訂碼 5921570875)。</p>
+                        <p class="desc-text">前往名護市區辦理入住。</p>
                         <a href="https://www.google.com/maps/search/?api=1&query=Lieta+Nakayama" target="_blank" class="google-map-btn">📍 導航飯店</a>
                     </div>
                     <div class="itinerary-item pl-4 border-l-red-500">
@@ -198,7 +198,7 @@
                 </div>
             </div>
 
-            <!-- Day 2 (Updated with detailed info) -->
+            <!-- Day 2 -->
             <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
                 <button onclick="toggleAccordion('d2')" class="w-full flex justify-between items-center p-4">
                     <div><span class="badge mr-2">D2</span><span class="font-bold text-sm text-slate-700">2/22 (日) 水族館探索</span></div>
@@ -210,6 +210,7 @@
                         <div class="menu-box">
                             <p>🍳 班尼迪克蛋 ¥1620 / 法式吐司 ¥1380</p>
                         </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=FLAP+COFFEE+and+BAKE+SHOP+Nago" target="_blank" class="google-map-btn">📍 導航早餐</a>
                     </div>
                     <div class="itinerary-item pl-4 border-l-blue-500">
                         <p class="font-bold text-sm text-blue-700">美麗海水族館 (08:30)</p>
@@ -331,7 +332,7 @@
                         <p class="font-bold text-sm text-amber-800">玉泉洞 (沖繩世界)</p>
                         <p class="desc-text">30 萬年鐘乳石洞。</p>
                         <p class="text-[10px] italic">🎫 門票：大人 ¥2,000 / 小人 ¥1,000</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+World" target="_blank" class="google-map-btn">📍 導航</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+World" target="_blank" class="google-map-btn text-amber-800">📍 導航</a>
                     </div>
                     <div class="itinerary-item pl-4 border-l-blue-400">
                         <p class="font-bold text-sm text-blue-700">午餐：糸滿魚市場</p>
@@ -378,36 +379,36 @@
                 </div>
             </div>
 
-            <!-- Day 7 - Detailed Flow -->
-            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm border-l-4 border-l-red-500">
+            <!-- Day 7 - Restored -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
                 <button onclick="toggleAccordion('d7')" class="w-full flex justify-between items-center p-4">
-                    <div><span class="badge mr-2">D7</span><span class="font-bold text-sm text-slate-700">2/27 (五) 神社與返航</span></div>
+                    <div><span class="badge mr-2 bg-blue-600">D7</span><span class="font-bold text-sm text-slate-700">2/27 (五) 神社與返航</span></div>
                     <svg id="icon-d7" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
                 <div id="content-d7" class="accordion-content p-4 space-y-4">
-                    <p class="text-[11px] font-bold text-red-500 italic">11:00 飯店退房</p>
+                    <p class="text-[11px] font-bold text-red-500 italic">11:00 退房 -> 寄行李 -> 波上宮參拜</p>
                     
                     <div class="itinerary-item pl-4 border-l-blue-400">
-                        <p class="font-bold text-sm">1. 步行前往寄存行李</p>
-                        <p class="desc-text">前往新都心或指定地點寄存行李，輕裝行動。</p>
+                        <p class="font-bold text-sm">步行前往寄存行李</p>
                         <a href="https://maps.app.goo.gl/ek8HHSipz6QRah5CA" target="_blank" class="google-map-btn bg-blue-50">📍 寄存點導航</a>
                     </div>
 
                     <div class="itinerary-item pl-4 border-l-red-500">
-                        <p class="font-bold text-sm">2. 波上宮參拜</p>
-                        <p class="desc-text">步行前往波上宮，體驗日本神社文化與購買御守。</p>
+                        <p class="font-bold text-sm">波上宮參拜 (文化體驗)</p>
+                        <div class="culture-box p-2 mt-2">
+                            <p class="text-[10px] text-orange-900 font-bold">🏮 參拜流程：</p>
+                            <p class="text-[10px] text-slate-600">手水舍洗手 -> 二拜 -> 二拍手 (許願) -> 一拜</p>
+                        </div>
                         <a href="https://www.google.com/maps/search/?api=1&query=Naminoue+Shrine" target="_blank" class="google-map-btn">📍 導航至波上宮</a>
                     </div>
 
                     <div class="itinerary-item pl-4">
-                        <p class="font-bold text-sm">3. 國際通最後採買</p>
-                        <p class="desc-text">購買伴手禮、藥妝，隨後取回行李。</p>
+                        <p class="font-bold text-sm">國際通最後採買 -> 取回行李</p>
                     </div>
 
                     <div class="itinerary-item pl-4 border-l-purple-600">
-                        <p class="font-bold text-sm text-purple-700">4. 搭乘單軌地鐵前往機場</p>
-                        <p class="desc-text">從 <strong>旭橋站</strong> 或 <strong>縣廳前站</strong> 搭乘 Yui Rail 至 <strong>那霸機場站</strong>。</p>
-                        <p class="text-[10px] italic">※ 車程約 13 分鐘，票價 ¥270。</p>
+                        <p class="font-bold text-sm text-purple-700">搭乘單軌地鐵 (Yui Rail)</p>
+                        <p class="text-[10px] text-gray-500 italic">旭橋站 -> 那霸機場站 (車程約 13 分鐘 / ¥270)</p>
                     </div>
 
                     <div class="p-5 bg-blue-600 text-white rounded-2xl text-center shadow-lg mt-4 font-bold">
@@ -436,7 +437,7 @@
                     <p class="font-bold text-sm text-orange-800 border-b border-orange-200 pb-1 mb-2">🧳 出發前整理清單</p>
                     <div class="space-y-1">
                         <label class="checklist-item text-red-600 font-bold"><input type="checkbox"> 駕照日文譯本 (必帶!)</label>
-                        <label class="checklist-item"><input type="checkbox"> 台灣駕照正本</label>
+                        <label class="checklist-item text-red-600 font-bold"><input type="checkbox"> 台灣駕照正本 (必帶!)</label>
                         <label class="checklist-item"><input type="checkbox"> 護照 (效期6個月以上)</label>
                         <label class="checklist-item"><input type="checkbox"> 網卡 / Wi-Fi 機</label>
                         <label class="checklist-item"><input type="checkbox"> 行動電源 & 充電線</label>
@@ -510,7 +511,7 @@
 
     <!-- Global Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t p-3 text-[10px] text-slate-400 flex justify-around shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
-        <div class="text-center font-bold text-blue-500">沖繩親子助手 v17.0</div>
+        <div class="text-center font-bold text-blue-500">沖繩親子助手 v19.0</div>
         <div class="text-center italic font-medium">祝全家人旅途愉快</div>
     </div>
 
