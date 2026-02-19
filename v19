@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 沖繩親子之旅行程助手 v19</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto+Sans+TC', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-tab.active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .hide { display: none; }
+        .accordion-content { 
+            max-height: 0;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 8000px;
+            opacity: 1;
+        }
+        .rotate-180 { transform: rotate(180deg); }
+        .itinerary-item { border-left: 4px solid #3b82f6; }
+        .google-map-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #f1f5f9;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            border: 1px solid #d1d5db;
+        }
+        .google-map-btn:active {
+            background-color: #e2e8f0;
+        }
+        .culture-box {
+            background-color: #fff7ed;
+            border: 1px solid #ffedd5;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .history-box {
+            background-color: #f0f9ff;
+            border: 1px solid #e0f2fe;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .menu-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        .badge {
+            background: #ef4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .desc-text {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-top: 4px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+        .checklist-item input {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white px-6 py-6 shadow-lg sticky top-0 z-50">
+        <h1 class="text-xl font-bold tracking-tight text-center">沖繩親子之旅 🌴</h1>
+        <p class="text-blue-100 text-xs mt-1 italic text-center">「沖沖蓉蓉，有肉有魚；沖沖買買，連假出遊」</p>
+        <p class="text-blue-200 text-[10px] mt-1 text-center font-mono">2026/02/21 - 02/27 (7 Days)</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex bg-white/95 backdrop-blur-sm shadow-sm sticky top-[104px] z-40 p-2 space-x-1 justify-start overflow-x-auto no-scrollbar border-b">
+        <button onclick="showMainSection('booking')" id="tab-booking" class="nav-tab px-3 py-2 rounded-xl text-[11px] font-bold transition-all active whitespace-nowrap">預訂資訊</button>
+        <button onclick="showMainSection('itinerary')" id="tab-itinerary" class="nav-tab px-3 py-2 rounded-xl text-[11px] font-bold transition-all bg-gray-100 whitespace-nowrap">行程總覽</button>
+        <button onclick="showMainSection('weather')" id="tab-weather" class="nav-tab px-3 py-2 rounded-xl text-[11px] font-bold transition-all bg-sky-50 text-sky-600 whitespace-nowrap">天氣/清單</button>
+        <button onclick="showMainSection('shrine')" id="tab-shrine" class="nav-tab px-3 py-2 rounded-xl text-[11px] font-bold transition-all bg-red-50 text-red-600 whitespace-nowrap">波上宮介紹</button>
+        <button onclick="showMainSection('daruma')" id="tab-daruma" class="nav-tab px-3 py-2 rounded-xl text-[11px] font-bold transition-all bg-orange-50 text-orange-600 whitespace-nowrap">達摩寺介紹</button>
+    </nav>
+
+    <main class="p-4 max-w-xl mx-auto">
+
+        <!-- Section: Booking Info -->
+        <section id="section-booking" class="space-y-4">
+            <h2 class="text-lg font-bold flex items-center px-2 text-slate-700"><span class="mr-2">📝</span> 預訂明細</h2>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <!-- Flight Info -->
+                <div class="space-y-2">
+                    <div class="flex items-center text-blue-600 font-bold text-sm mb-2">✈️ 航班資訊</div>
+                    <div class="bg-blue-50/50 p-2 rounded-lg text-[11px] border border-blue-100">
+                        <p class="font-bold underline">China Airlines 華航 (T2-T1)</p>
+                        <p>2/21 CI120: 08:10-10:35 | 2/27 CI123: 20:20-21:00</p>
+                    </div>
+                    <div class="bg-green-50/50 p-2 rounded-lg text-[11px] border border-green-100">
+                        <p class="font-bold underline">EVA Airlines 長榮 (T2-T1)</p>
+                        <p>2/21 BR112: 06:55-09:15 | 2/27 BR185: 20:10-20:55</p>
+                    </div>
+                </div>
+                <!-- Hotel Info -->
+                <div class="border-t pt-3">
+                    <div class="flex items-center text-indigo-600 font-bold text-sm mb-2">🏨 住宿安排</div>
+                    <div class="space-y-3 text-[11px]">
+                        <div class="p-3 border border-indigo-100 bg-indigo-50/30 rounded-xl">
+                            <p class="text-indigo-600 font-bold">2/21 - 2/24 名護 3晚</p>
+                            <p class="font-bold text-sm">Lieta Nakayama</p>
+                            <p class="text-indigo-700 font-bold mt-1">確認碼：5921570875 | PIN：4589</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Lieta+Nakayama" target="_blank" class="google-map-btn">📍 飯店導航</a>
+                        </div>
+                        <div class="p-3 border border-slate-200 bg-slate-50/50 rounded-xl">
+                            <p class="text-slate-600 font-bold">2/24 - 2/27 那霸 3晚</p>
+                            <p class="font-bold text-sm">GRAND STAY 旭橋駅前</p>
+                            <p class="text-blue-700 font-bold mt-1">確認碼：4424646656 | PIN：1214</p>
+                            <p class="text-gray-500 mt-1">地址：3-5-7 Higashimachi, Naha</p>
+                            <div class="flex space-x-2 mt-2">
+                                <a href="https://www.google.com/maps/search/?api=1&query=GRAND+STAY+Asahibashi+Ekimae" target="_blank" class="google-map-btn">📍 飯店導航</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=D-Parking+Naha+Higashimachi+No.1" target="_blank" class="google-map-btn bg-emerald-100 border-none">🅿️ 便宜停車導航</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Rental -->
+                <div class="border-t pt-3">
+                    <div class="flex items-center text-orange-600 font-bold text-sm mb-2">🚗 租車 Okiblues</div>
+                    <div class="bg-orange-50/50 p-2 rounded-lg text-[11px]">
+                        <p><strong>取車尾款：</strong>96,000 日圓 + <strong>保險：</strong>24,000 日圓</p>
+                        <p class="text-orange-800 font-bold mt-1 text-[10px]">※ 請準備現金於取車時支付</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Full Itinerary -->
+        <section id="section-itinerary" class="space-y-3 hide">
+            <h2 class="text-lg font-bold flex items-center px-2 text-slate-700"><span class="mr-2">📍</span> 行程總覽</h2>
+            
+            <!-- Day 1 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d1')" class="w-full flex justify-between items-center p-4 bg-slate-50">
+                    <div><span class="badge mr-2">D1</span><span class="font-bold text-sm text-slate-700">2/21 (六) 抵達與名護</span></div>
+                    <svg id="icon-d1" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d1" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4"><p class="font-bold text-sm">12:00 機場取車</p></div>
+                    <div class="itinerary-item pl-4 border-l-orange-400">
+                        <p class="font-bold text-sm text-orange-700">永旺夢樂城 AEON Rycom</p>
+                        <p class="desc-text">沖繩最大的購物度假中心，以巨大的水族箱聞名。</p>
+                        <div class="menu-box space-y-2">
+                            <p>🏢 <strong>4F Air BicCamera:</strong> 3C/最新家電精品</p>
+                            <p>🐉 <strong>4F Pokémon Center:</strong> 沖繩限定風速狗皮卡丘必拍</p>
+                            <p class="font-bold text-blue-600 mt-1">🍴 止餓小吃:</p>
+                            <p>Blue Seal (3/4F)、築地銀章魚燒 (3F)、世界第二好吃菠蘿麵包冰淇淋 (4F)</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=AEON+Mall+Okinawa+Rycom" target="_blank" class="google-map-btn">📍 導航至 AEON</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-indigo-500">
+                        <p class="font-bold text-sm text-indigo-700">飯店 Check-in：Lieta Nakayama</p>
+                        <p class="desc-text">前往名護市區辦理入住。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Lieta+Nakayama" target="_blank" class="google-map-btn">📍 導航飯店</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-red-500">
+                        <p class="font-bold text-sm text-red-700">19:00 燒肉本部牧場 (預約)</p>
+                        <p class="desc-text">屢獲農林水產大臣賞的頂級「本部牛」。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Yakiniku+Motobu+Farm+Nago" target="_blank" class="google-map-btn">📍 導航餐廳</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d2')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2">D2</span><span class="font-bold text-sm text-slate-700">2/22 (日) 水族館探索</span></div>
+                    <svg id="icon-d2" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d2" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4 border-l-green-600">
+                        <p class="font-bold text-sm text-green-700">早餐: Flap Coffee</p>
+                        <div class="menu-box">
+                            <p>🍳 班尼迪克蛋 ¥1620 / 法式吐司 ¥1380</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=FLAP+COFFEE+and+BAKE+SHOP+Nago" target="_blank" class="google-map-btn">📍 導航早餐</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-blue-500">
+                        <p class="font-bold text-sm text-blue-700">美麗海水族館 (08:30)</p>
+                        <p class="desc-text">擁有世界最大水槽之一的「黑潮之海」。</p>
+                        <div class="menu-box">
+                            <p class="font-bold underline mb-1">🎫 門票資訊:</p>
+                            <p>大人 ¥2,180 | 高中 ¥1,440 | 中小學 ¥710 | 6歲以下免費</p>
+                            <p class="font-bold underline mt-2 mb-1">🕒 必看演出:</p>
+                            <p>🐬 <strong>海豚秀 (Okichan Theater):</strong> 10:30 / 11:30</p>
+                            <p>🦈 <strong>鯨鯊餵食 (黑潮之海):</strong> 15:00 / 17:00</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+Churaumi+Aquarium" target="_blank" class="google-map-btn">📍 導航水族館</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-sky-600">
+                        <p class="font-bold text-sm text-sky-700">午餐: 海邦丸</p>
+                        <p class="desc-text">位於 Ala Mahaina 內的人氣海鮮食堂。</p>
+                        <div class="menu-box text-sky-800">
+                            <p class="font-bold underline">🍱 必點菜單:</p>
+                            <p>• <strong>海葡萄海鮮丼:</strong> 滿滿海味</p>
+                            <p>• <strong>刺身定食:</strong> 當日新鮮漁獲</p>
+                            <p>• <strong>奶油烤魚定食:</strong> 香氣四溢</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sea+Food+Restaurant+Kaibonmaru" target="_blank" class="google-map-btn">📍 導航海邦丸</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-orange-500">
+                        <p class="font-bold text-sm text-orange-700">晚餐: 飯店煮火鍋 (超市採購肉品)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d3')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2">D3</span><span class="font-bold text-sm text-slate-700">2/23 (一) 古宇利島探險</span></div>
+                    <svg id="icon-d3" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d3" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4 border-l-red-500">
+                        <p class="font-bold text-sm text-red-700">10:30 潛水員牛排 (Diver Steak)</p>
+                        <p class="desc-text">美式豪邁風格，大份量肉塊。</p>
+                        <div class="menu-box"><p>🥩 招牌 Diver Steak ¥1,900 / 肋眼 ¥2,400</p></div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Diver+Steak+Okinawa" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-blue-400">
+                        <p class="font-bold text-sm">古宇利海洋塔 (Kouri Ocean Tower)</p>
+                        <p class="desc-text">搭乘自動無人車上山，館內有世界貝殼博物館。</p>
+                        <div class="menu-box"><p>🎫 票價：大人 ¥1,000 / 小人 ¥500</p></div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Kouri+Ocean+Tower" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-yellow-500">
+                        <p class="font-bold text-sm text-yellow-700">古宇利島 蝦蝦飯 (Shrimp Wagon)</p>
+                        <div class="menu-box space-y-1">
+                            <p>• 原味/辣味: ¥1,400</p>
+                            <p>• 檸檬奶油/辣味奶油: ¥1,500 (推!)</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Shrimp+Wagon+Okinawa" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-emerald-600">
+                        <p class="font-bold text-sm text-emerald-700">海景下午茶：L LOTA</p>
+                        <p class="desc-text">絕美景觀咖啡廳，俯瞰古宇利大橋。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=L+LOTA+Kouri+Island" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4">
+                        <p class="font-bold text-sm">晚餐：名護暖暮拉麵</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Danbo+Ramen+Nago" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d4')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2">D4</span><span class="font-bold text-sm text-slate-700">2/24 (二) 往那霸移動</span></div>
+                    <svg id="icon-d4" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d4" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4 border-l-orange-500">
+                        <p class="font-bold text-sm text-orange-700">A&W 漢堡 (牧港店)</p>
+                        <p class="desc-text">復古美式裝潢。必點：Root Beer (可續杯)、捲捲薯條。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=AW+Makiminato" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-emerald-600">
+                        <p class="font-bold text-sm text-emerald-700">港川外人住宅區</p>
+                        <p class="desc-text">oHacorté 水果塔、HOUKI BOSHI 黑糖可麗露。</p>
+                        <div class="flex space-x-2">
+                            <a href="https://www.google.com/maps/search/?api=1&query=oHacorte+Minatogawa" target="_blank" class="google-map-btn">📍 店家導航</a>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Urasoe+Minatogawa+Parking" target="_blank" class="google-map-btn bg-emerald-50 text-emerald-700">🅿️ 停車導航</a>
+                        </div>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-indigo-600">
+                        <p class="font-bold text-sm text-indigo-700">PARCO CITY 購物與午餐</p>
+                        <div class="menu-box text-indigo-800">
+                            <p class="text-red-500 font-bold underline">⚠️ 此處無寶可夢中心</p>
+                            <p>🛍️ 必逛：EDION 電器、Sanrio、Jump Shop</p>
+                            <p>🍴 午餐：敘敘苑海景燒肉、88 牛排</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=SAN-A+PARCO+CITY" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100">
+                        <p class="font-bold text-xs text-indigo-700">那霸 Check In：GRAND STAY 旭橋</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=D-Parking+Naha+Higashimachi+No.1" target="_blank" class="google-map-btn bg-white">🅿️ 便宜停車導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-red-500">
+                        <p class="font-bold text-sm text-red-700">晚餐：傑克牛排 (Jack's Steak House)</p>
+                        <p class="desc-text">沖繩傳奇老店，推薦 Tenderloin 牛排。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Jack's+Steak+House+Naha" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d5')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2">D5</span><span class="font-bold text-sm text-slate-700">2/25 (三) 南部與瀨長島</span></div>
+                    <svg id="icon-d5" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d5" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4 border-l-amber-700">
+                        <p class="font-bold text-sm text-amber-800">玉泉洞 (沖繩世界)</p>
+                        <p class="desc-text">30 萬年鐘乳石洞。</p>
+                        <p class="text-[10px] italic">🎫 門票：大人 ¥2,000 / 小人 ¥1,000</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+World" target="_blank" class="google-map-btn text-amber-800">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-blue-400">
+                        <p class="font-bold text-sm text-blue-700">午餐：糸滿魚市場</p>
+                        <div class="menu-box text-blue-800">
+                            <p>🍤 必吃：烤起司龍蝦、海膽扇貝、生食大干貝</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Itoman+Fish+Market" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-sky-400">
+                        <p class="font-bold text-sm text-sky-700">瀨長島 Umikaji Terrace</p>
+                        <p class="desc-text">白色建築與飛機起降。</p>
+                        <div class="menu-box text-sky-800">
+                            <p>🥞 幸福鬆餅、氾濫漢堡、泛濫起司塔</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Umikaji+Terrace+Senagajima" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-emerald-600">
+                        <p class="font-bold text-sm text-emerald-700">晚餐：阿古豬豬排 (Tonkatsu Taro)</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tonkatsu+Taro+Naha" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d6')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2">D6</span><span class="font-bold text-sm text-slate-700">2/26 (四) 人文與還車</span></div>
+                    <svg id="icon-d6" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d6" class="accordion-content p-4 space-y-4">
+                    <div class="itinerary-item pl-4 border-l-amber-600">
+                        <p class="font-bold text-sm text-amber-700">西來院 (達摩寺)</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sairai-in+Daruma-dera+Temple" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="itinerary-item pl-4 border-l-emerald-600">
+                        <p class="font-bold text-sm text-emerald-700">壺屋陶器街</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tsuboya+Yachimun+Street" target="_blank" class="google-map-btn">📍 導航</a>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded-xl border border-red-200 font-black text-red-600 text-center text-xs italic">🚗 17:00 Okiblues 還車 (那霸店)</div>
+                    <div class="itinerary-item pl-4 border-l-red-500"><p class="font-bold text-sm">晚餐：Buchi 燒肉</p></div>
+                    <div class="itinerary-item pl-4 border-l-pink-600">
+                        <p class="font-bold text-sm text-pink-700">晚餐後：一蘭拉麵 & 國際通逛街</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 7 - Restored -->
+            <div class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                <button onclick="toggleAccordion('d7')" class="w-full flex justify-between items-center p-4">
+                    <div><span class="badge mr-2 bg-blue-600">D7</span><span class="font-bold text-sm text-slate-700">2/27 (五) 神社與返航</span></div>
+                    <svg id="icon-d7" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-d7" class="accordion-content p-4 space-y-4">
+                    <p class="text-[11px] font-bold text-red-500 italic">11:00 退房 -> 寄行李 -> 波上宮參拜</p>
+                    
+                    <div class="itinerary-item pl-4 border-l-blue-400">
+                        <p class="font-bold text-sm">步行前往寄存行李</p>
+                        <a href="https://maps.app.goo.gl/ek8HHSipz6QRah5CA" target="_blank" class="google-map-btn bg-blue-50">📍 寄存點導航</a>
+                    </div>
+
+                    <div class="itinerary-item pl-4 border-l-red-500">
+                        <p class="font-bold text-sm">波上宮參拜 (文化體驗)</p>
+                        <div class="culture-box p-2 mt-2">
+                            <p class="text-[10px] text-orange-900 font-bold">🏮 參拜流程：</p>
+                            <p class="text-[10px] text-slate-600">手水舍洗手 -> 二拜 -> 二拍手 (許願) -> 一拜</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Naminoue+Shrine" target="_blank" class="google-map-btn">📍 導航至波上宮</a>
+                    </div>
+
+                    <div class="itinerary-item pl-4">
+                        <p class="font-bold text-sm">國際通最後採買 -> 取回行李</p>
+                    </div>
+
+                    <div class="itinerary-item pl-4 border-l-purple-600">
+                        <p class="font-bold text-sm text-purple-700">搭乘單軌地鐵 (Yui Rail)</p>
+                        <p class="text-[10px] text-gray-500 italic">旭橋站 -> 那霸機場站 (車程約 13 分鐘 / ¥270)</p>
+                    </div>
+
+                    <div class="p-5 bg-blue-600 text-white rounded-2xl text-center shadow-lg mt-4 font-bold">
+                        <p class="text-lg uppercase italic font-mono tracking-widest">20:10 返航台灣</p>
+                        <p class="text-xs opacity-80 mt-1 italic font-medium">※ 請於 17:30 抵達機場辦理手續</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: Weather & Checklist -->
+        <section id="section-weather" class="space-y-4 hide">
+            <h2 class="text-lg font-bold flex items-center px-2 text-sky-600"><span class="mr-2">⛅</span> 天氣與清單</h2>
+            <div class="bg-white p-5 rounded-2xl border border-sky-100 shadow-sm space-y-6">
+                <!-- Weather -->
+                <div>
+                    <p class="font-bold text-sm text-sky-800 border-b border-sky-200 pb-1 mb-2">2月沖繩天氣預報</p>
+                    <p class="text-[11px] leading-relaxed">平均氣溫約 15°C - 20°C。海風較大，體感溫度可能更低。</p>
+                    <div class="bg-sky-50 p-2 rounded mt-2 text-[11px] text-sky-900">
+                        <p>🧥 <strong>穿搭建議：</strong>洋蔥式穿法。</p>
+                        <p>內搭長袖 + 防風外套 (海邊風大必備)。</p>
+                    </div>
+                </div>
+                <!-- Checklist -->
+                <div>
+                    <p class="font-bold text-sm text-orange-800 border-b border-orange-200 pb-1 mb-2">🧳 出發前整理清單</p>
+                    <div class="space-y-1">
+                        <label class="checklist-item text-red-600 font-bold"><input type="checkbox"> 駕照日文譯本 (必帶!)</label>
+                        <label class="checklist-item text-red-600 font-bold"><input type="checkbox"> 台灣駕照正本 (必帶!)</label>
+                        <label class="checklist-item"><input type="checkbox"> 護照 (效期6個月以上)</label>
+                        <label class="checklist-item"><input type="checkbox"> 網卡 / Wi-Fi 機</label>
+                        <label class="checklist-item"><input type="checkbox"> 行動電源 & 充電線</label>
+                        <label class="checklist-item"><input type="checkbox"> 個人常備藥品</label>
+                        <label class="checklist-item"><input type="checkbox"> 輕便雨具 / 防風外套</label>
+                        <label class="checklist-item"><input type="checkbox"> 日幣現金 (部分店家只收現)</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Naminoue Shrine Background -->
+        <section id="section-shrine" class="space-y-4 hide">
+            <h2 class="text-lg font-bold flex items-center px-2 text-red-700"><span class="mr-2">⛩️</span> 波上宮深度探索</h2>
+            <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-sm space-y-6">
+                <div class="history-box">
+                    <p class="text-sm font-bold text-red-800 underline mb-2">🌊 起源與傳說</p>
+                    <p class="desc-text">波上宮的起源與沖繩古老的信仰「ニライカナイ (Nirai Kanai)」有關，意指海的彼端是神靈居住的樂土。傳說中古代有人在海邊撿到一顆會發光的靈石，並在此地建立了祭壇向大海祈禱，這便是波上宮的前身。</p>
+                </div>
+                
+                <div class="history-box bg-orange-50 border-orange-100">
+                    <p class="text-sm font-bold text-orange-800 underline mb-2">🏛️ 建築特色</p>
+                    <p class="desc-text">不同於日本本土神社，波上宮採用了沖繩特有的「紅瓦屋頂」，反映了琉球王國獨特的文化審美。鮮豔的朱紅色與沖繩的藍天大海形成強烈對比。</p>
+                </div>
+
+                <div class="culture-box">
+                    <p class="font-bold text-xs text-orange-900 mb-1">📍 媽媽給孩子的導覽重點：</p>
+                    <ul class="text-[10px] space-y-2 text-slate-700 list-disc pl-4">
+                        <li><strong>守護神：</strong> 供奉「熊野權現」，專管交通安全與健康。</li>
+                        <li><strong>必買：</strong> 可愛的小學生「書包交通安全御守」。</li>
+                        <li><strong>拍照點：</strong> 從旁邊的「波之上大橋」人行道，可拍到神社懸在斷崖上的絕景。</li>
+                    </ul>
+                </div>
+
+                <div class="menu-box">
+                    <p class="font-bold text-orange-900 mb-1 text-center italic">🏮 參拜口訣：二拜、二拍手、一拜 🏮</p>
+                    <p class="text-[10px] text-center text-slate-500">
+                        1. 丟錢 (5圓) -> 2. 搖鈴 -> 3. 鞠躬兩次 -> 4. 拍手兩次 -> 5. 鞠躬一次。
+                    </p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Naminoue+Shrine" target="_blank" class="google-map-btn w-full justify-center bg-red-600 text-white border-none shadow-md">📍 前往波上宮</a>
+            </div>
+        </section>
+
+        <!-- Section: Daruma-dera Background -->
+        <section id="section-daruma" class="space-y-4 hide">
+            <h2 class="text-lg font-bold flex items-center px-2 text-orange-700"><span class="mr-2">🔴</span> 達摩寺 (西來院) 深度探索</h2>
+            <div class="bg-white p-5 rounded-2xl border border-orange-100 shadow-sm space-y-4">
+                <div class="history-box">
+                    <p class="text-sm font-bold text-orange-800 underline mb-2">🏮 關於達摩祖師</p>
+                    <p class="desc-text">西來院的主神是達摩祖師。達摩不倒翁象徵著「七轉八起」的精神，意思是「跌倒七次，也要站起來八次」。這種不屈不撓的精神，被認為能帶來勝負運與考運。</p>
+                </div>
+
+                <div class="history-box bg-red-50 border-red-100">
+                    <p class="text-sm font-bold text-red-800 underline mb-2">🐇 十二生肖守護神</p>
+                    <p class="desc-text">除了達摩，這裡也供奉著對應十二生肖的守護本尊。這是一個非常好的機會，讓孩子認識自己的生肖守護神並進行參拜。</p>
+                </div>
+
+                <div class="culture-box" style="background-color: #fffaf5;">
+                    <p class="font-bold text-xs text-orange-900 mb-1">🎓 給國小生的教育意義：</p>
+                    <ul class="text-[10px] space-y-2 text-slate-700 list-disc pl-4">
+                        <li><strong>堅持到底：</strong> 就像不倒翁一樣，讀書遇到困難不要放棄。</li>
+                        <li><strong>許願儀式：</strong> 買一個白色達摩，許願時畫左眼，願望實現後再畫右眼。</li>
+                    </ul>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Sairai-in+Daruma-dera+Temple" target="_blank" class="google-map-btn w-full justify-center bg-orange-600 text-white border-none shadow-md">📍 前往達摩寺</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t p-3 text-[10px] text-slate-400 flex justify-around shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+        <div class="text-center font-bold text-blue-500">沖繩親子助手 v19.0</div>
+        <div class="text-center italic font-medium">祝全家人旅途愉快</div>
+    </div>
+
+    <script>
+        function showMainSection(id) {
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hide'));
+            document.getElementById('section-' + id).classList.remove('hide');
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function toggleAccordion(dayId) {
+            const content = document.getElementById('content-' + dayId);
+            const icon = document.getElementById('icon-' + dayId);
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.classList.remove('rotate-180');
+            } else {
+                content.classList.add('open');
+                icon.classList.add('rotate-180');
+                setTimeout(() => {
+                    content.parentElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>
